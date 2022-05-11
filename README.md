@@ -69,3 +69,6 @@ gopher://127.0.0.1:80/_POST%2520/flag.php%2520HTTP/1.1%250d%250aHost:%2520127.0.
 gopher://<host>:<port>/<gopher-path>_后接TCP数据流
 ```
 gopher 协议的默认端口是70 。所以最好在http请求报文中将 80 或者443 端口在Host字段显式写出来，程序会自动读取Host字段值，填充到 <host>:<port> 部分
+## 参考资料
+- [https://www.cxyzjd.com/article/weixin_45887311/107327706](https://www.cxyzjd.com/article/weixin_45887311/107327706)
+- [https://blog.csdn.net/weixin_44037296/article/details/118387034](https://blog.csdn.net/weixin_44037296/article/details/118387034)
