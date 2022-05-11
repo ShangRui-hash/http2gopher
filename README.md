@@ -1,7 +1,7 @@
 # http2gopher 
 
 ## 描述
-一款将http请求报文转化为gopher协议格式的工具。
+一款将http请求报文转化为gopher请求报文的工具。
 ## 下载
 ```
 go install -v github.com/ShangRui-hash/http2gopher@latest 

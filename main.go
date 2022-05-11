@@ -25,7 +25,7 @@ func main() {
 	}
 	app := &cli.App{
 		Name:      "http2gopher",
-		Usage:     "一个用来将http请求报文转换成gopher请求的工具",
+		Usage:     "一个用来将http请求报文转换成gopher请求报文的工具",
 		UsageText: "http2gopher",
 		Version:   "v0.1",
 		Authors:   []*cli.Author{&author},
