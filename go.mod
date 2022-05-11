@@ -1,4 +1,4 @@
-module http2gopher
+module github.com/ShangRui-hash/http2gopher
 
 go 1.18
 
