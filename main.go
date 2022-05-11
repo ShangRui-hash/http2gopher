@@ -89,7 +89,7 @@ func http2gopher(buffer []byte) (gopherRequest string, err error) {
 	//获取body
 	body, err := ioutil.ReadAll(request.Body)
 	if err != nil {
-		logrus.Error("ioutil.ReadAll failed,err:", err)
+		logrus.Error("ioutil.ReadAll(request.Body) failed,err:", err)
 		return "", err
 	}
 	//去除body之后的空格和换行
