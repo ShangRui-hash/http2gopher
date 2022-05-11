@@ -27,11 +27,11 @@ COMMANDS:
    help, h  Shows a list of commands or help for one command
 
 GLOBAL OPTIONS:
-   --file value, -f value    指定http请求报文所在的文件
-   --doubleURLencoded, -d    是否进行双重URL编码 (default: false)
-   --checkContentLength, -c  是否检查Content-Length (default: true)
-   --help, -h                show help (default: false)
-   --version, -v             print the version (default: false)
+   --file value, -f value         指定http请求报文所在的文件
+   --doubleURLencoded, -d         是否进行双重URL编码 (default: false)
+   --doNotCheckContentLength, -n  不检查Content-Length (default: false)
+   --help, -h                     show help (default: false)
+   --version, -v                  print the version (default: false)
 ```
 ## 使用案例
 ./test/post.txt
