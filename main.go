@@ -78,28 +78,39 @@ func run(c *cli.Context) (err error) {
 	return nil
 }
 
-func http2gopher(buffer []byte) (gopherRequest string, err error) {
+func getBody(request *http.Request, buffer []byte) (body string) {
+	//获取body
+	if buf, err := ioutil.ReadAll(request.Body); err == nil {
+		return string(buf)
+	}
+	flag := false
+	scanner := bufio.NewScanner(bytes.NewReader(buffer))
+	for scanner.Scan() {
+		line := scanner.Text()
+		if flag {
+			body = body + line + "\n"
+		}
+		if line == "" {
+			flag = true
+		}
+	}
+	return body
+}
 
+func http2gopher(buffer []byte) (gopherRequest string, err error) {
 	//解析http请求报文
 	request, err := http.ReadRequest(bufio.NewReader(bytes.NewReader(buffer)))
 	if err != nil {
 		logrus.Error("http.ReadRequest failed,err:", err)
 		return "", err
 	}
-	//获取body
-	body, err := ioutil.ReadAll(request.Body)
-	if err != nil {
-		logrus.Error("ioutil.ReadAll(request.Body) failed,err:", err)
-		return "", err
-	}
-	//去除body之后的空格和换行
-	body = bytes.TrimSpace(body)
-	body = bytes.Replace(body, []byte("\n"), []byte(""), -1)
 	//初始化gopher
-	gopherRequest = fmt.Sprintf("gopher://%s/_%s %s %s", request.Host, request.Method, request.RequestURI, request.Proto)
+	gopherRequest = fmt.Sprintf("gopher://%s/_", request.Host)
+	gopherRequest += fmt.Sprintf("%s %s %s", request.Method, request.RequestURI, request.Proto)
 	gopherRequest += "%0d%0a"
 	gopherRequest += fmt.Sprintf("Host: %s", request.Host)
 	gopherRequest += "%0d%0a"
+	body := getBody(request, buffer)
 	//转化请求头
 	if !doNotCheckContentLength {
 		request.Header.Set("Content-Length", fmt.Sprintf("%d", len(body)))
@@ -111,13 +122,23 @@ func http2gopher(buffer []byte) (gopherRequest string, err error) {
 	}
 	gopherRequest += "%0d%0a"
 	//转换body
-	gopherRequest += string(body)
+	lines := strings.Split(body, "\n")
+	linesLen := len(lines)
+	for i := range lines {
+		gopherRequest = gopherRequest + strings.TrimSpace(lines[i])
+		//追加%0d%0a
+		if i != linesLen-1 {
+			gopherRequest = gopherRequest + "%0d%0a"
+		}
+	}
 	//将空格替换为%20
 	gopherRequest = strings.Replace(gopherRequest, " ", "%20", -1)
 	//将&替换为%26
 	gopherRequest = strings.Replace(gopherRequest, "&", "%26", -1)
 	//将#替换为%23
 	gopherRequest = strings.Replace(gopherRequest, "#", "%23", -1)
+	//将=替换为%3d
+	gopherRequest = strings.Replace(gopherRequest, "=", "%3d", -1)
 	//如果开启了双重URL编码
 	if isDoubleURLencoded {
 		gopherRequest = strings.Replace(gopherRequest, "%", "%25", -1)

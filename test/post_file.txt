@@ -1,0 +1,17 @@
+POST /flag.php HTTP/1.1
+Host: 127.0.0.1:80
+Content-Length: 288
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryC7DH04a6ocLeMb9V
+
+------WebKitFormBoundaryC7DH04a6ocLeMb9V
+Content-Disposition: form-data; name="file"; filename="mini.jpg"
+Content-Type: image/jpeg
+
+123123
+
+------WebKitFormBoundaryC7DH04a6ocLeMb9V
+Content-Disposition: form-data; name="submit"
+
+提交
+------WebKitFormBoundaryC7DH04a6ocLeMb9V--
+
