@@ -3,8 +3,13 @@
 ## 描述
 一款将http请求报文转化为gopher请求报文的工具。
 ## 下载
+go version >= 1.6
 ```
 go install -v github.com/ShangRui-hash/http2gopher@latest 
+```
+go version < 1.6
+```
+go get github.com/ShangRui-hash/http2gopher
 ```
 ## 使用
 ```
